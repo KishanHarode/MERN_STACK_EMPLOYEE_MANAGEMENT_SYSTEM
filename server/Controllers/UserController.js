@@ -51,7 +51,7 @@ export const SignUp = async (req, res) => {
 
         res.cookie('token', getToken, {
             httpOnly: true,
-            sameSite: 'strict',
+            sameSite: 'None',
             maxAge: 7 * 24 * 60 * 60 * 1000, // ✅ Correct value
             secure: process.env.NODE_ENV === 'production'
         });
@@ -88,7 +88,7 @@ export const signIn = async (req, res) => {
             const getToken = await genToken(UserExists._id);
             res.cookie('token',getToken,{
                 httpOnly: true,
-                sameSite: 'strict',
+                sameSite: 'None',
                 maxAge: 7 * 24 * 60 * 60 * 1000,
                 secure: process.env.NODE_ENV === 'production'
             })
@@ -107,7 +107,7 @@ export const signOut = async (req, res) => {
     try {
         await res.clearCookie('token', {
             httpOnly: true,
-            samesite: 'strict',
+            samesite: 'None',
             secure: process.env.NODE_ENV === 'production',
             maxAge: 0
         })
