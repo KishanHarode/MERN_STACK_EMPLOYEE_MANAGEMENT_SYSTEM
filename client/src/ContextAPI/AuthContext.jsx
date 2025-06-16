@@ -3,7 +3,7 @@ import React, { createContext } from 'react'
 export const AuthContext_API = createContext();
 
 const AuthContext = ({children}) => {
-    const serverURL = "https://backend-employeemanagement-system.onrender.com";
+    const serverURL = "https://mern-stack-employee-management-system-0p1w.onrender.com";
     const value = {
         serverURL,
     }
