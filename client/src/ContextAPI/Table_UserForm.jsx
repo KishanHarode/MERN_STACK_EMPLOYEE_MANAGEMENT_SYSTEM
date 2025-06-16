@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useMemo, useState, useTransition } from 'react'
 import { AuthContext_API } from './AuthContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -11,7 +11,8 @@ const Table_UserForm = ({children}) => {
     const [isEditIdMode,setIsEditIdMode] = useState(null);
     const [loadingEmployee,setLoadingEmployee] = useState(false);
     const [searchText , setSearchText] = useState("");
-   
+    const [pending, startTransition] = useTransition();
+    const [filteredEmployeeList,setFilteredEmployeeList] = useState([]);
     const [formEmployee, setFormEmployee] = useState({
         name:"",
         email:"",
@@ -20,14 +21,27 @@ const Table_UserForm = ({children}) => {
         phone:""
     })
 
-    const filterData = employees.filter((candidate)=>{
-        return (
-           candidate.name === searchText.toUpperCase() ? 
-             candidate.name.toUpperCase().includes(searchText.toUpperCase())
-           :
-             candidate.name.toLowerCase().includes(searchText.toLowerCase())
-        )
-    })
+    // const filterData = employees.filter((candidate)=>{
+    //     return (
+    //        candidate.name === searchText.toUpperCase() ? 
+    //          candidate.name.toUpperCase().includes(searchText.toUpperCase())
+    //        :
+    //          candidate.name.toLowerCase().includes(searchText.toLowerCase())
+    //     )
+    // })
+    
+    useEffect(()=>{
+        startTransition(()=>{
+           const filterData = employees.filter((candidate)=>{
+            return (
+                candidate.name === searchText.toUpperCase() ? 
+                candidate.name.toUpperCase().includes(searchText.toUpperCase()) :
+                candidate.name.toLowerCase().includes(searchText.toLowerCase())
+            )
+           })
+           setFilteredEmployeeList(filterData);    
+        })
+    },[searchText,employees])
 
     const fetchEmployees = async () => {
         try {
@@ -81,7 +95,8 @@ const Table_UserForm = ({children}) => {
         setLoadingEmployee,
         searchText,
         setSearchText,
-        filterData    
+        filterData_EmployeeList: filteredEmployeeList,
+        pending   
     }
     useEffect(() => {
         const fetchData = async () => {

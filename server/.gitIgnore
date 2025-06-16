@@ -30,9 +30,6 @@ out/
 coverage/
 .nyc_output/
 
-# Uploads and public folders (optional – remove if you want to track them)
-public/
-uploads/
 
 # OS-specific files
 .DS_Store

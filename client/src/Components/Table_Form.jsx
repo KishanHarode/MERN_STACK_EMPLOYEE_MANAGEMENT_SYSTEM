@@ -11,7 +11,7 @@ import SearchBar from './SearchBar';
 
 const Table_Form = () => {
     const { formEmployee, fetchEmployees, setFormEmployee, addEmployee, isEditMode,
-        setIsEditMode,setIsEditIdMode,isEditIdMode, setLoadingEmployee,  loadingEmployee, filterData } = useContext(Table_UserFormContext);
+        setIsEditMode,setIsEditIdMode,isEditIdMode, setLoadingEmployee,  loadingEmployee, filterData_EmployeeList, pending } = useContext(Table_UserFormContext);
     const { serverURL } = useContext(AuthContext_API);
     
    
@@ -200,14 +200,19 @@ const Table_Form = () => {
                         <tbody>
                             {/* Example row */}
                             {
-                                filterData.length === 0 && (
+                               pending && (
+                                <LoadingSpinner key={'loading-spinner'}/>
+                               ) 
+                            }
+                            {
+                                filterData_EmployeeList.length === 0 && (
                                     <tr className='bg-white shadow rounded-md hover:shadow-md hover:bg-gray-100 transition duration-300'>
                                         <td colSpan={7} className='text-center py-4 text-gray-500 font-semibold'>Sorry the data is not available....</td>
                                     </tr>
                                 )
                             }
                             {
-                                filterData.map((item) => (
+                                filterData_EmployeeList.map((item) => (
                                     <tr key={item._id} className='bg-white shadow rounded-md hover:shadow-md hover:bg-gray-100 transition duration-300'>
                                         <td className='px-4 py-3 font-bold'>{item._id.substring(7, 10)}</td>
                                         <td className='px-4 py-3'>{item.name}</td>
