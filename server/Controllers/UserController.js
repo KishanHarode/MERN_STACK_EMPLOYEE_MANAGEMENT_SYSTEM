@@ -93,7 +93,7 @@ export const signIn = async (req, res) => {
                 secure: process.env.NODE_ENV === 'production'
             })
         }catch(error){
-
+            return res.status(400).json({message:"Token in cookie is not generated"});
         }
         return res.status(200).json({ message: "User SignIn Successfully...", UserExists });
 
